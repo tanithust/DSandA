@@ -1,0 +1,29 @@
+int check(int v, int k){
+    for(int i = 1; i <= k-1; i++){
+        if(A[i][k] && v == X[i]) return 0;
+    }
+    return 1;
+}
+void solution(){
+    int max = 0;
+    for(int i = 1;i <= M; i++){
+        if(max < f[i]) max = f[i];
+    }
+    if(max < f_best){
+        f_best = max;
+    }
+}
+void TRY(int k){// try to find a teacher (v) for course k
+    for(int i = 0; i < sz[k]; i++){
+        int v = t[k][i];
+        if(check(v,k)){
+            X[k] = v;
+            f[v] += h[k];// accumulate load for teacher v
+            if(k == N){
+            solution();
+            }else TRY(k+1);
+            f[v] -= h[k];// recover load when backtracking
+
+        }
+    }
+}
